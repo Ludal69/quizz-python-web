@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend_c
+    # command: >
+    #   sh -c "pip install debugpy -t /tmp &&
+    #          python -m debugpy --wait-for-client --listen 0.0.0.0:9229 manage.py runserver 0.0.0.0:8000 --nothreading --noreload"
+
+    # command: >
+    #   sh -c "pip install debugpy -t /tmp &&
+    #          python -m debugpy --listen 0.0.0.0:9229 manage.py runserver 0.0.0.0:8000 --nothreading --noreload"
+
+    command: >
+      sh -c "pip install debugpy -t /tmp &&
+             python -m debugpy --listen 0.0.0.0:9229 manage.py runserver 0.0.0.0:8000 --nothreading"
+
+    # command: >
+    #   sh -c "python manage.py runserver 0.0.0.0:8000 --nothreading --noreload"
+
+    #DEBUGBY fait planter !!
+    ports:
+      - "8000:8000"
+      - "9229:9229" # Port pour le débogage distant
+    volumes:
+      - ./backend:/app # Volume pour le hot-reload
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_c
+    # ports:
+    #   - "3000:8080" # 3000 pour l'hôte, 8080 pour le conteneur
+    ports:
+    - "3000:3000" # 3000 pour l'hôte, 8080 pour le conteneur
+    # ports:
+    #   - "8080:8080"
+    # develop:
+    #   watch: # remplace l'option volumes (de docker-compose.yml)
+    #     - action: sync
+    #       path: ./frontend
+    #       target: /app
+    #     - action: rebuild
+    #       path: ./frontend/package.json
+    develop:
+      watch: #remplace l'option volumes (de docker-compose.yml)
+        - action: sync
+          path: ./frontend
+          target: /app
+        - action: rebuild
+          path: ./frontend/package.json
+    # volumes:
+    #   - ./frontend:/app # Volume pour le hot-reload
+    environment:
+      - VUE_APP_BACKEND_URL=http://localhost:8000/api/
+    depends_on:
+      - backend
+    command: npm run serve -- --public 0.0.0.0:8080
+    # command: >
+    #   sh -c "npm serve --public http://localhost"

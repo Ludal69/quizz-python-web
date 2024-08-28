@@ -1,0 +1,4 @@
+Django>=4.0
+djangorestframework  # Pour créer une API RESTful si nécessaire
+psycopg2-binary  # Connecteur pour PostgreSQL
+django-cors-headers  # Pour gérer CORS, utile pour le frontend séparé
