@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',  # Ajouté pour CORS
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -56,17 +57,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-# Database configuration (PostgreSQL)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'mydatabase',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'db',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'quizz_dev',  # Assure-toi que cela correspond à ta configuration
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',  # 'db' fait référence au nom du service Docker
+        'PORT': '5432',
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        },
+    }
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
