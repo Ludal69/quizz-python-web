@@ -8,15 +8,22 @@ class Theme(models.Model):
         return self.name
 
 class Quiz(models.Model):
+    DIFFICULTY_LEVELS = (
+        ('easy', 'Facile'),
+        ('medium', 'Moyen'),
+        ('hard', 'Difficile'),
+    )
+
     title = models.CharField(max_length=100)
     theme = models.ForeignKey(Theme, on_delete=models.CASCADE, related_name='quizzes')
+    difficulty = models.CharField(max_length=10, choices=DIFFICULTY_LEVELS, default='medium')  # Nouveau champ
 
     def __str__(self):
         return self.title
 
 class Question(models.Model):
     content = models.TextField()
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions', default=1)  # Remplacez "1" par l'ID de votre quiz par défaut
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions', default=1)
     multiple_choices = models.BooleanField(default=True)
     correct_answer = models.ForeignKey('Reponse', on_delete=models.SET_NULL, null=True, related_name='correct_answer_for')
 
