@@ -1,15 +1,15 @@
 <template>
-  <div class="quiz-card">
-    <img :src="themeImage" alt="quiz image" class="quiz-image" />
+  <div class="quiz-card" @click="goToQuizDetail">
+    <img :src="quiz.image_url" alt="quiz image" class="quiz-image" />
     <div class="quiz-details">
       <h4>{{ quiz.title }}</h4>
       <div class="quiz-meta">
         <div class="difficulty">
-          <!-- <img src="@/assets/icons/difficulty-icon.svg" alt="Difficulty icon" /> -->
+          <font-awesome-icon icon="star" />
           <span>{{ quiz.difficulty }}</span>
         </div>
         <div class="category">
-          <!-- <img src="@/assets/icons/category-icon.svg" alt="Category icon" /> -->
+          <font-awesome-icon icon="bookmark" />
           <span>{{ quiz.category }}</span>
         </div>
       </div>
@@ -25,16 +25,10 @@ export default {
       required: true,
     },
   },
-  computed: {
-    themeImage() {
-      // Si le thème est "Céline Dion", on utilise l'image spécifique
-      // if (this.theme.name === "Céline Dion") {
-      //   return require("@/assets/images/icons/celine.png");
-      // } else {
-      //   return this.theme.image; // Sinon on utilise l'image par défaut du thème
-      // }
-
-      return require("@/assets/images/icons/celine.png");
+  methods: {
+    goToQuizDetail() {
+      // Rediriger vers la page de détails du quiz avec l'identifiant du quiz
+      this.$router.push({ name: "QuizDetail", params: { id: this.quiz.id } });
     },
   },
 };
@@ -50,6 +44,7 @@ export default {
   margin: 10px 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
+  cursor: pointer; /* Ajout d'un curseur pour indiquer que c'est cliquable */
 }
 
 .quiz-image {
@@ -81,11 +76,5 @@ export default {
   align-items: center;
   font-size: 14px;
   color: #7f8c8d;
-}
-
-.quiz-meta img {
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
 }
 </style>

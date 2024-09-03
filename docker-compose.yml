@@ -17,7 +17,7 @@ services:
     container_name: backend_c
     command: >
       sh -c "pip install debugpy -t /tmp &&
-             python -m debugpy --listen 0.0.0.0:9229 manage.py runserver 0.0.0.0:8000 --nothreading"
+             python -m debugpy --wait-for-client --listen 0.0.0.0:9229 manage.py runserver 0.0.0.0:8000 --nothreading"
     env_file:
       - ./backend/.env
     ports:
@@ -64,6 +64,8 @@ services:
       - db
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+    logging:
+      driver: "none"
 
 networks:
   app-network:

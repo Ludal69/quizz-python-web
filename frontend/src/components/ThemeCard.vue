@@ -1,6 +1,6 @@
 <template>
   <div class="theme-card">
-    <img :src="themeImage" alt="theme.name" class="theme-image" />
+    <img :src="theme.image_url" alt="quiz image" class="quiz-image" />
     <h3>{{ theme.name }}</h3>
   </div>
 </template>
@@ -11,18 +11,6 @@ export default {
     theme: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    themeImage() {
-      // Si le thème est "Céline Dion", on utilise l'image spécifique
-      // if (this.theme.name === "Céline Dion") {
-      //   return require("@/assets/images/icons/celine.png");
-      // } else {
-      //   return this.theme.image; // Sinon on utilise l'image par défaut du thème
-      // }
-
-      return require("@/assets/images/icons/celine.png");
     },
   },
 };
